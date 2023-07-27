@@ -9,6 +9,7 @@ import ToolkitProvider, {
 } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 
 import { Button } from 'react-bootstrap';
+import ClearButton from '../../components/ClearButton';
 
 const { SearchBar } = Search;
 
@@ -16,27 +17,6 @@ let nameFilter;
 let priceFilter;
 let stockFilter;
 let originFilter;
-
-const ClearButton = (props) => {
-  const handleClick = () => {
-    props.onSearch('');
-    props.clearAllFilter();
-  };
-  return (
-    <Button
-      variant='secondary'
-      onClick={handleClick}
-      style={{
-        fontSize: '16px',
-        padding: '5px',
-        margin: '10px',
-        height: '40px',
-      }}
-    >
-      Clear
-    </Button>
-  );
-};
 
 const RevenueScreen = () => {
   const { id: catergoryId } = useParams();
@@ -51,7 +31,6 @@ const RevenueScreen = () => {
     {
       dataField: 'name',
       text: 'Product Name',
-    //   formatter: cell => selectOptions[cell],
       filter: selectFilter({
         options: selectOptions,
       }),

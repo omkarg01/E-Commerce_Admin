@@ -12,6 +12,14 @@ import {
 } from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
 import { categories } from '../../utils/categories';
+import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
+// import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
+import ToolkitProvider, {
+  Search,
+} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
+
+
 
 const ProductListScreen = () => {
   const { id: catergoryId } = useParams();
@@ -62,7 +70,7 @@ const ProductListScreen = () => {
         </Col>
       </Row>
 
-      {/* {loadingCreate && <Loader />}
+      {loadingCreate && <Loader />}
       {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
@@ -109,7 +117,7 @@ const ProductListScreen = () => {
           </Table>
           <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
-      )} */}
+      )}
     </>
   );
 };
