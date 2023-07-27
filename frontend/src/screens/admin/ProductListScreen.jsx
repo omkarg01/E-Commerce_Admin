@@ -31,11 +31,10 @@ let priceFilter;
 let brandFilter;
 
 const ProductListScreen = () => {
-  const { id: catergoryId } = useParams();
+  const { id: pageNumber } = useParams();
   const [productsList, setProductsList] = useState();
   const [columns, setColumns] = useState();
 
-  const pageNumber = 1;
   const { data, isLoading, error, refetch } = useGetProductsQuery({
     pageNumber,
   });
@@ -161,7 +160,7 @@ const ProductListScreen = () => {
     <>
       <Row className='align-items-center'>
         <Col>
-          <h1>{categories[catergoryId]} : Products</h1>
+          <h1>Products</h1>
         </Col>
         <Col className='text-end'>
           <Button className='my-3' onClick={createProductHandler}>
@@ -179,7 +178,7 @@ const ProductListScreen = () => {
       ) : (
         <>
           {console.log('products', productsList)}
-          {productsList && (
+          {productsList && (<>
             <ToolkitProvider
               bootstrap4
               keyField='name'
@@ -208,6 +207,8 @@ const ProductListScreen = () => {
                 </div>
               )}
             </ToolkitProvider>
+            <Paginate pages={data.pages} page={data.page} isAdmin={true} />
+            </>
           )}
           {/* <Table striped bordered hover responsive className='table-sm'>
             <thead>

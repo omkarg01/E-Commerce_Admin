@@ -13,7 +13,6 @@ import { useParams } from 'react-router-dom';
 import { categories } from '../../utils/categories';
 
 const UserListScreen = () => {
-  const { id: catergoryId } = useParams();
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
   const [deleteUser] = useDeleteUserMutation();
@@ -31,7 +30,7 @@ const UserListScreen = () => {
 
   return (
     <>
-      <h1> {categories[catergoryId]} : Vendors</h1>
+      <h1> Vendors</h1>
       {/* {isLoading ? (
         <Loader />
       ) : error ? (

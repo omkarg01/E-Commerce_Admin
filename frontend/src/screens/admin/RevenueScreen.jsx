@@ -22,7 +22,6 @@ let stockFilter;
 let originFilter;
 
 const RevenueScreen = () => {
-  const { id: catergoryId } = useParams();
 
     const selectOptions = {
       0: 'good',
@@ -113,7 +112,7 @@ const RevenueScreen = () => {
 
   return (
     <>
-      <h1>{categories[catergoryId]} : RevenueScreen</h1>
+      <h1>RevenueScreen</h1>
       <h1>Clear search bar and filter</h1>
       <ToolkitProvider
         bootstrap4

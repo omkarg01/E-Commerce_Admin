@@ -8,12 +8,11 @@ import { useParams } from 'react-router-dom';
 import { categories } from '../../utils/categories';
 
 const OrderListScreen = () => {
-  const { id: catergoryId } = useParams();
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   return (
     <>
-      <h1>{categories[catergoryId]} : Orders </h1>
+      <h1>Orders </h1>
       {/* {isLoading ? (
         <Loader />
       ) : error ? (

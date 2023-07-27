@@ -11,6 +11,7 @@ import { resetCart } from '../slices/cartSlice';
 import { useState } from 'react';
 
 const Header = () => {
+
   const [key, setKey] = useState(1);
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
@@ -34,7 +35,7 @@ const Header = () => {
   };
 
   const handleSelect = (eventKey) => {
-    setKey(eventKey);
+    setKey(eventKey)
   };
 
   return (
@@ -49,7 +50,7 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='ms-auto'>
+            <Nav className='ms-auto' >
               <SearchBox />
               {/* <LinkContainer to='/cart'>
                 <Nav.Link>
@@ -63,42 +64,20 @@ const Header = () => {
               </LinkContainer> */}
 
               {/* Category Links */}
-              {userInfo && userInfo.isAdmin && (
-                <NavDropdown
-                  title='Category'
-                  id='adminmenu'
-                  onSelect={handleSelect}
-                >
-                  {/* <LinkContainer to='/admin/userlist'> */}
-                  <NavDropdown.Item eventKey='1'>Grocery</NavDropdown.Item>
-                  {/* </LinkContainer> */}
-                  {/* <LinkContainer to='/admin/productlist'> */}
-                  <NavDropdown.Item eventKey='2'>Clothing</NavDropdown.Item>
-                  {/* </LinkContainer> */}
-                  {/* <LinkContainer to='/admin/orderlist'> */}
-                  <NavDropdown.Item eventKey='3'>Electronics</NavDropdown.Item>
-                  {/* </LinkContainer> */}
-                  {/* <LinkContainer to='/admin/kitchen'> */}
-                  <NavDropdown.Item eventKey='4'>
-                    Home & Kitchen
-                  </NavDropdown.Item>
-                  {/* </LinkContainer> */}
-                </NavDropdown>
-              )}
 
               {/* Admin Links */}
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin' id='adminmenu'>
-                  <LinkContainer to={`/admin/userlist/${key}`}>
+                  <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Vendors</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to={`/admin/productlist/${key}`}>
+                  <LinkContainer to='/admin/productlist' >
                     <NavDropdown.Item>Products</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to={`/admin/orderlist/${key}`}>
+                  <LinkContainer to='/admin/orderlist' >
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to={`/admin/revenue/${key}`}>
+                  <LinkContainer to='/admin/revenue'>
                     <NavDropdown.Item>Revenue</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
