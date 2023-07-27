@@ -13,16 +13,27 @@ import {
 import { toast } from 'react-toastify';
 import { categories } from '../../utils/categories';
 import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, {
+  selectFilter,
+  textFilter,
+} from 'react-bootstrap-table2-filter';
 // import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import ToolkitProvider, {
   Search,
 } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
+import { useEffect, useState } from 'react';
+import ClearButton from '../../components/ClearButton';
 
+const { SearchBar } = Search;
 
+let nameFilter;
+let priceFilter;
+let brandFilter;
 
 const ProductListScreen = () => {
   const { id: catergoryId } = useParams();
+  const [productsList, setProductsList] = useState();
+  const [columns, setColumns] = useState();
 
   const pageNumber = 1;
   const { data, isLoading, error, refetch } = useGetProductsQuery({
@@ -57,6 +68,95 @@ const ProductListScreen = () => {
     }
   };
 
+  useEffect(() => {
+    // console.log("hello world!");
+    if (data) {
+      let productsList = data.products.map((product) => ({
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        category: 2,
+        actions: (
+          <>
+            <LinkContainer to={`/admin/product/${product._id}/edit`}>
+              <Button variant='light' className='btn-sm mx-2'>
+                <FaEdit />
+              </Button>
+            </LinkContainer>
+            <Button
+              variant='danger'
+              className='btn-sm'
+              onClick={() => deleteHandler(product._id)}
+            >
+              <FaTrash style={{ color: 'white' }} />
+            </Button>
+          </>
+        ),
+      }));
+
+      setProductsList(productsList);
+      let columns = [
+        {
+          dataField: 'id',
+          text: 'Product ID',
+
+          // filter: selectFilter({
+          //   options: categories,
+          // }),
+          // filter: textFilter({
+          //   getFilter: (filter) => {
+          //     nameFilter = filter;
+          //   },
+          // }),
+        },
+        {
+          dataField: 'name',
+          text: 'Product Name',
+          // filter: selectFilter({
+          //   options: categories,
+          // }),
+          filter: textFilter({
+            getFilter: (filter) => {
+              nameFilter = filter;
+            },
+          }),
+        },
+        {
+          dataField: 'price',
+          text: 'Price (in Rs)',
+          filter: textFilter({
+            getFilter: (filter) => {
+              priceFilter = filter;
+            },
+          }),
+          sort: true,
+        },
+        {
+          dataField: 'category',
+          text: 'Category',
+          formatter: (cell) => categories[cell],
+          filter: selectFilter({
+            options: categories,
+          }),
+        },
+        {
+          dataField: 'actions',
+          text: 'Actions',
+        },
+      ];
+      setColumns(columns);
+      // console.log('products', productsList);
+    }
+  }, [data]);
+
+  const clearAllFilter = () => {
+    nameFilter('');
+    priceFilter('');
+    // originFilter('');
+    // stockFilter('');
+    brandFilter('');
+  };
+
   return (
     <>
       <Row className='align-items-center'>
@@ -78,7 +178,38 @@ const ProductListScreen = () => {
         <Message variant='danger'>{error.data.message}</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className='table-sm'>
+          {console.log('products', productsList)}
+          {productsList && (
+            <ToolkitProvider
+              bootstrap4
+              keyField='name'
+              data={productsList}
+              columns={columns}
+              search
+            >
+              {(props) => (
+                <div>
+                  <SearchBar
+                    {...props.searchProps}
+                    style={{ width: '400px', height: '40px' }}
+                  />
+                  <ClearButton
+                    {...props.searchProps}
+                    clearAllFilter={clearAllFilter}
+                  />
+                  <BootstrapTable
+                    {...props.baseProps}
+                    filter={filterFactory()}
+                    noDataIndication='There is no solution'
+                    striped
+                    hover
+                    condensed
+                  />
+                </div>
+              )}
+            </ToolkitProvider>
+          )}
+          {/* <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
                 <th>ID</th>
@@ -115,7 +246,7 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
-          <Paginate pages={data.pages} page={data.page} isAdmin={true} />
+          <Paginate pages={data.pages} page={data.page} isAdmin={true} /> */}
         </>
       )}
     </>

@@ -1,6 +1,6 @@
 export const categories = {
-    '1': 'Grocery',
-    '2': 'Clothing',
-    '3': 'Electronics',
-    '4': 'Home & Kitchen',
+    0: 'Grocery',
+    1: 'Clothing',
+    2: 'Electronics',
+    3: 'Home & Kitchen',
 }

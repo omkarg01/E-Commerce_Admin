@@ -2,7 +2,10 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { categories } from '../../utils/categories';
 import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, {
+  selectFilter,
+  textFilter,
+} from 'react-bootstrap-table2-filter';
 // import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import ToolkitProvider, {
   Search,
@@ -21,19 +24,29 @@ let originFilter;
 const RevenueScreen = () => {
   const { id: catergoryId } = useParams();
 
-  const selectOptions = {
-    0: 'good',
-    1: 'Bad',
-    2: 'unknown',
-  };
+    const selectOptions = {
+      0: 'good',
+      1: 'Bad',
+      2: 'unknown',
+    };
+
+//   const selectOptions = [
+//     { value: 0, label: 'good' },
+//     { value: 1, label: 'bad' },
+//     { value: 2, label: 'unknown' },
+//   ];
 
   const columns = [
     {
       dataField: 'name',
       text: 'Product Name',
+      formatter: cell => selectOptions[cell],
+    //   formatter: (cell) =>
+    //     selectOptions.find((opt) => opt.value === cell).label,
       filter: selectFilter({
-        options: selectOptions,
+        options:() => selectOptions,
       }),
+
       //   filter: textFilter({
       //     getFilter: (filter) => {
       //       nameFilter = filter;
@@ -79,26 +92,24 @@ const RevenueScreen = () => {
 
   const products = [
     {
-      name: 'apple',
+      name: 0,
       price: 100,
       stock: 10,
       origin: 'japan',
     },
     {
-      name: 'orange',
+      name: 1,
       price: 150,
       stock: 35,
       origin: 'spain',
     },
     {
-      name: 'pineapple',
+      name: 2,
       price: 300,
       stock: 4,
       origin: 'america',
     },
   ];
-
-  
 
   return (
     <>
