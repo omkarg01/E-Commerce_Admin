@@ -11,10 +11,12 @@ import {
   useCreateProductMutation,
 } from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
+import { categories } from '../../utils/categories';
 
 const ProductListScreen = () => {
-  const { pageNumber } = useParams();
+  const { id: catergoryId } = useParams();
 
+  const pageNumber = 1;
   const { data, isLoading, error, refetch } = useGetProductsQuery({
     pageNumber,
   });
@@ -51,7 +53,7 @@ const ProductListScreen = () => {
     <>
       <Row className='align-items-center'>
         <Col>
-          <h1>Products</h1>
+          <h1>{categories[catergoryId]} : Products</h1>
         </Col>
         <Col className='text-end'>
           <Button className='my-3' onClick={createProductHandler}>
@@ -60,7 +62,7 @@ const ProductListScreen = () => {
         </Col>
       </Row>
 
-      {loadingCreate && <Loader />}
+      {/* {loadingCreate && <Loader />}
       {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
@@ -107,7 +109,7 @@ const ProductListScreen = () => {
           </Table>
           <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
-      )}
+      )} */}
     </>
   );
 };

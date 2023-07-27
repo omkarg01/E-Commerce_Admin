@@ -4,14 +4,17 @@ import { FaTimes } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
+import { useParams } from 'react-router-dom';
+import { categories } from '../../utils/categories';
 
 const OrderListScreen = () => {
+  const { id: catergoryId } = useParams();
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   return (
     <>
-      <h1>Orders</h1>
-      {isLoading ? (
+      <h1>{categories[catergoryId]} : Orders </h1>
+      {/* {isLoading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>
@@ -62,7 +65,7 @@ const OrderListScreen = () => {
             ))}
           </tbody>
         </Table>
-      )}
+      )} */}
     </>
   );
 };

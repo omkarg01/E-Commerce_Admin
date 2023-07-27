@@ -9,8 +9,11 @@ import {
   useGetUsersQuery,
 } from '../../slices/usersApiSlice';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+import { categories } from '../../utils/categories';
 
 const UserListScreen = () => {
+  const { id: catergoryId } = useParams();
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
   const [deleteUser] = useDeleteUserMutation();
@@ -28,8 +31,8 @@ const UserListScreen = () => {
 
   return (
     <>
-      <h1>Users</h1>
-      {isLoading ? (
+      <h1> {categories[catergoryId]} : Vendors</h1>
+      {/* {isLoading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>
@@ -86,7 +89,7 @@ const UserListScreen = () => {
             ))}
           </tbody>
         </Table>
-      )}
+      )} */}
     </>
   );
 };
