@@ -67,92 +67,88 @@ const ProductListScreen = () => {
     }
   };
 
+  function setTableHeading() {
+    let columns = [
+      {
+        dataField: 'id',
+        text: 'Product ID',
+      },
+      {
+        dataField: 'name',
+        text: 'Product Name',
+        filter: textFilter({
+          getFilter: (filter) => {
+            nameFilter = filter;
+          },
+        }),
+      },
+      {
+        dataField: 'price',
+        text: 'Price (in Rs)',
+        filter: textFilter({
+          getFilter: (filter) => {
+            priceFilter = filter;
+          },
+        }),
+        sort: true,
+      },
+      {
+        dataField: 'category',
+        text: 'Category',
+        formatter: (cell) => categories[cell],
+        filter: selectFilter({
+          options: categories,
+        }),
+      },
+      {
+        dataField: 'actions',
+        text: 'Actions',
+      },
+    ];
+    setColumns(columns);
+  }
+
+  const tableActions = (product) => {
+    return (
+      <>
+        <LinkContainer to={`/admin/product/${product._id}/edit`}>
+          <Button variant='light' className='btn-sm mx-2'>
+            <FaEdit />
+          </Button>
+        </LinkContainer>
+        <Button
+          variant='danger'
+          className='btn-sm'
+          onClick={() => deleteHandler(product._id)}
+        >
+          <FaTrash style={{ color: 'white' }} />
+        </Button>
+      </>
+    );
+  };
+
+  function setTableData() {
+    let productsList = data.products.map((product) => ({
+      id: product._id,
+      name: product.name,
+      price: product.price,
+      category: 2,
+      actions: tableActions(product),
+    }));
+
+    setProductsList(productsList);
+  }
+
   useEffect(() => {
-    // console.log("hello world!");
     if (data) {
-      let productsList = data.products.map((product) => ({
-        id: product._id,
-        name: product.name,
-        price: product.price,
-        category: 2,
-        actions: (
-          <>
-            <LinkContainer to={`/admin/product/${product._id}/edit`}>
-              <Button variant='light' className='btn-sm mx-2'>
-                <FaEdit />
-              </Button>
-            </LinkContainer>
-            <Button
-              variant='danger'
-              className='btn-sm'
-              onClick={() => deleteHandler(product._id)}
-            >
-              <FaTrash style={{ color: 'white' }} />
-            </Button>
-          </>
-        ),
-      }));
-
-      setProductsList(productsList);
-      let columns = [
-        {
-          dataField: 'id',
-          text: 'Product ID',
-
-          // filter: selectFilter({
-          //   options: categories,
-          // }),
-          // filter: textFilter({
-          //   getFilter: (filter) => {
-          //     nameFilter = filter;
-          //   },
-          // }),
-        },
-        {
-          dataField: 'name',
-          text: 'Product Name',
-          // filter: selectFilter({
-          //   options: categories,
-          // }),
-          filter: textFilter({
-            getFilter: (filter) => {
-              nameFilter = filter;
-            },
-          }),
-        },
-        {
-          dataField: 'price',
-          text: 'Price (in Rs)',
-          filter: textFilter({
-            getFilter: (filter) => {
-              priceFilter = filter;
-            },
-          }),
-          sort: true,
-        },
-        {
-          dataField: 'category',
-          text: 'Category',
-          formatter: (cell) => categories[cell],
-          filter: selectFilter({
-            options: categories,
-          }),
-        },
-        {
-          dataField: 'actions',
-          text: 'Actions',
-        },
-      ];
-      setColumns(columns);
-      // console.log('products', productsList);
+      setTableData();
+      setTableHeading();
     }
   }, [data]);
 
   const clearAllFilter = () => {
     nameFilter('');
     priceFilter('');
-    // originFilter('');
-    // stockFilter('');
     brandFilter('');
   };
 
@@ -177,37 +173,37 @@ const ProductListScreen = () => {
         <Message variant='danger'>{error.data.message}</Message>
       ) : (
         <>
-          {console.log('products', productsList)}
-          {productsList && (<>
-            <ToolkitProvider
-              bootstrap4
-              keyField='name'
-              data={productsList}
-              columns={columns}
-              search
-            >
-              {(props) => (
-                <div>
-                  <SearchBar
-                    {...props.searchProps}
-                    style={{ width: '400px', height: '40px' }}
-                  />
-                  <ClearButton
-                    {...props.searchProps}
-                    clearAllFilter={clearAllFilter}
-                  />
-                  <BootstrapTable
-                    {...props.baseProps}
-                    filter={filterFactory()}
-                    noDataIndication='There is no solution'
-                    striped
-                    hover
-                    condensed
-                  />
-                </div>
-              )}
-            </ToolkitProvider>
-            <Paginate pages={data.pages} page={data.page} isAdmin={true} />
+          {productsList && (
+            <>
+              <ToolkitProvider
+                bootstrap4
+                keyField='name'
+                data={productsList}
+                columns={columns}
+                search
+              >
+                {(props) => (
+                  <div>
+                    <SearchBar
+                      {...props.searchProps}
+                      style={{ width: '400px', height: '40px' }}
+                    />
+                    <ClearButton
+                      {...props.searchProps}
+                      clearAllFilter={clearAllFilter}
+                    />
+                    <BootstrapTable
+                      {...props.baseProps}
+                      filter={filterFactory()}
+                      noDataIndication='There is no solution'
+                      striped
+                      hover
+                      condensed
+                    />
+                  </div>
+                )}
+              </ToolkitProvider>
+              <Paginate pages={data.pages} page={data.page} isAdmin={true} />
             </>
           )}
           {/* <Table striped bordered hover responsive className='table-sm'>
