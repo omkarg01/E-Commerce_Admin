@@ -77,10 +77,10 @@ const UserListScreen = () => {
           options: categories,
         }),
       },
-      {
-        dataField: 'actions',
-        text: 'Actions',
-      },
+      // {
+      //   dataField: 'actions',
+      //   text: 'Actions',
+      // },
     ];
     setColumns(columns);
   }
@@ -114,7 +114,7 @@ const UserListScreen = () => {
       name: user.name,
       email: user.email,
       category: 2,
-      actions: tableActions(user),
+      // actions: tableActions(user),
     }));
 
     setUsersList(usersList);
