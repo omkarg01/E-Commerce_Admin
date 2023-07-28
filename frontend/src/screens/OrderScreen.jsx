@@ -211,7 +211,8 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && (
+              
+              {false && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
 

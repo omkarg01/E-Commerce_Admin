@@ -1,7 +1,7 @@
 import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button } from 'react-bootstrap';
-import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
+import { Button } from 'react-bootstrap';
+import { FaTrash, FaEdit } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import {
@@ -9,7 +9,6 @@ import {
   useGetUsersQuery,
 } from '../../slices/usersApiSlice';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
 import { categories } from '../../utils/categories';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, {
