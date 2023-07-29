@@ -113,7 +113,7 @@ const RevenueScreen = () => {
   return (
     <>
       <h1>RevenueScreen</h1>
-      <h1>Clear search bar and filter</h1>
+      {/* <h1>Clear search bar and filter</h1>
       <ToolkitProvider
         bootstrap4
         keyField='name'
@@ -141,7 +141,7 @@ const RevenueScreen = () => {
             />
           </div>
         )}
-      </ToolkitProvider>
+      </ToolkitProvider> */}
     </>
   );
 };
