@@ -1,206 +1,196 @@
 import React from 'react';
-import { useGetPartnershipQuery } from '../../slices/usersApiSlice';
-import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory, {
-  selectFilter,
-  textFilter,
-} from 'react-bootstrap-table2-filter';
-// import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-import ToolkitProvider, {
-  Search,
-} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import { useEffect, useState } from 'react';
-import ClearButton from '../../components/ClearButton';
-import { categories } from '../../utils/categories';
+import { useParams } from 'react-router-dom';
+import FormContainer from '../../components/FormContainer';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
-
-const { SearchBar } = Search;
-
-let nameFilter;
-let emailFilter;
+import { useGetPartnershipDetailQuery } from '../../slices/usersApiSlice';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const PartnershipScreen = () => {
-  const [vendorsList, setVendorsList] = useState();
-  const [columns, setColumns] = useState();
-  const { data, isLoading, refetch, error } = useGetPartnershipQuery();
+  const { id } = useParams();
+  const { data, isLoading, refetch, error } = useGetPartnershipDetailQuery(id);
+  console.log(data);
 
-  function setTableHeading() {
-    let columns = [
-      {
-        dataField: 'id',
-        text: 'ID',
-      },
-      {
-        dataField: 'vendorName',
-        text: 'Vendor Name',
-        filter: textFilter({
-          getFilter: (filter) => {
-            nameFilter = filter;
-          },
-        }),
-      },
-      {
-        dataField: 'vendorAddress',
-        text: 'Address Of Vendor',
-        filter: textFilter({
-          getFilter: (filter) => {
-            nameFilter = filter;
-          },
-        }),
-      },
-      {
-        dataField: 'pincode',
-        text: 'Pincode',
-        filter: textFilter({
-          getFilter: (filter) => {
-            nameFilter = filter;
-          },
-        }),
-      },
-      {
-        dataField: 'vendorEmail',
-        text: 'Vendor Email',
-        filter: textFilter({
-          getFilter: (filter) => {
-            emailFilter = filter;
-          },
-        }),
-      },
-      {
-        dataField: 'vendorPhone',
-        text: 'Vendor Phone',
-        filter: textFilter({
-          getFilter: (filter) => {
-            emailFilter = filter;
-          },
-        }),
-      },
-      {
-        dataField: 'ownerName',
-        text: 'Owner Name',
-        filter: textFilter({
-          getFilter: (filter) => {
-            emailFilter = filter;
-          },
-        }),
-      },
-      {
-        dataField: 'ownerEmail',
-        text: 'Owner Email',
-        filter: textFilter({
-          getFilter: (filter) => {
-            emailFilter = filter;
-          },
-        }),
-      },
-      {
-        dataField: 'ownerPhone',
-        text: 'Owner Phone',
-        filter: textFilter({
-          getFilter: (filter) => {
-            emailFilter = filter;
-          },
-        }),
-      },
-      {
-        dataField: 'cert',
-        text: 'Shop Registration Cert',
-      },
-      {
-        dataField: 'pancard',
-        text: 'Shop Pancard',
-      },
-      {
-        dataField: 'category',
-        text: 'Category',
-        formatter: (cell) => categories[cell],
-        filter: selectFilter({
-          options: categories,
-        }),
-      },
-     
-    ];
-    setColumns(columns);
+
+  const rejectHandler = async (e) => {
+    e.preventDefault();
+    toast.error('Application Rejected!', {
+        position: "bottom-right",
+        autoClose: 2000,
+        theme: "dark"
+    });
   }
 
-  function setTableData() {
-    console.log('users', data);
-    let usersList = data.partnership.map((each) => ({
-      id: each.id,
-      vendorName: each.vendorName,
-      vendorAddress: each.vendorAddress,
-      pincode: each.pincode,
-      vendorEmail : each.vendorEmail,
-      vendorPhone : each.vendorPhone,
-      ownerName : each.ownerName,
-      ownerEmail : each.ownerEmail,
-      ownerPhone : each.ownerPhone,
-      cert : each.shopRegistrationCert,
-      pancard : each.shopPancard,
-      category: 2,
-      // actions: tableActions(user),
-    }));
-
-    setVendorsList(usersList);
+  const approveHandler = async (e) => {
+    e.preventDefault();
+    toast.success('Application Approved!', {
+        position: "bottom-right",
+        autoClose: 2000,
+        theme: "dark"
+    });
   }
 
-  useEffect(() => {
-    if (data) {
-      setTableData();
-      setTableHeading();
-    }
-  }, [data]);
-
-  const clearAllFilter = () => {
-    nameFilter('');
-    emailFilter('');
-  };
   return (
     <>
-      <h1>PartnershipScreen</h1>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>
-          {error?.data?.message || error.error}
-        </Message>
-      ) : (
-        <>
-          {vendorsList && (
-            <>
-              <ToolkitProvider
-                bootstrap4
-                keyField='name'
-                data={vendorsList}
-                columns={columns}
-                search
-              >
-                {(props) => (
-                  <div>
-                    <SearchBar
-                      {...props.searchProps}
-                      style={{ width: '400px', height: '40px' }}
-                    />
-                    <ClearButton
-                      {...props.searchProps}
-                      clearAllFilter={clearAllFilter}
-                    />
-                    <BootstrapTable
-                      {...props.baseProps}
-                      filter={filterFactory()}
-                      noDataIndication='There is no solution'
-                      striped
-                      hover
-                      condensed
-                    />
-                  </div>
-                )}
-              </ToolkitProvider>
-            </>
-          )}
-        </>
-      )}
+      <h1>Partnership</h1>
+      <Container>
+        {/* <h1>Edit Product</h1> */}
+        {/* {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>} */}
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant='danger'>
+            {error?.data?.message || error.error}
+          </Message>
+        ) : (
+          <>
+            <Form>
+              <Row lg={4}>
+                <Col>
+                  <Form.Group controlId='vendorName'>
+                    <Form.Label>Vendor Name</Form.Label>
+                    <Form.Control
+                      type='name'
+                      placeholder='Enter Vendor Name'
+                      value={data.vendorName}
+                      readOnly
+                      //   onChange={(e) => setVendorName(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId='addressVendor'>
+                    <Form.Label>Address of Vendor</Form.Label>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter vendor address'
+                      value={data.vendorAddress}
+                      readOnly
+                      //   onChange={(e) => setAddressVendor(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId='pincode'>
+                    <Form.Label>Pincode</Form.Label>
+                    <Form.Control
+                      type='number'
+                      placeholder='Enter pincode'
+                      value={data.pincode}
+                      readOnly
+                      //   onChange={(e) => setPincode(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId='vendorEmail'>
+                    <Form.Label>Vendor Email</Form.Label>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter email'
+                      value={data.vendorEmail}
+                      readOnly
+                      //   onChange={(e) => setVendorEmail(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId='vendorPhone'>
+                    <Form.Label>Vendor Phone</Form.Label>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter vendor phone number'
+                      value={data.vendorPhone}
+                      readOnly
+                      //   onChange={(e) => setVendorPhone(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId='ownerName'>
+                    <Form.Label>Owner Name</Form.Label>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter owner name'
+                      value={data.ownerName}
+                      readOnly
+                      //   onChange={(e) => setOwnerName(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId='ownerEmail'>
+                    <Form.Label>Owner Email</Form.Label>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter email'
+                      value={data.ownerEmail}
+                      readOnly
+                      //   onChange={(e) => setOwnerEmail(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId='ownerPhone'>
+                    <Form.Label>Owner Phone</Form.Label>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter owner phone number'
+                      value={data.ownerPhone}
+                      readOnly
+                      //   onChange={(e) => setOwnerPhone(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId='pandcard'>
+                    <Form.Label>Shop Pancard</Form.Label>
+                    <Form.Control
+                      type='text'
+                      placeholder='Enter pancard number'
+                      value={data.shopPancard}
+                      readOnly
+                      //   onChange={(e) => setPandcard(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row >
+                <Col lg={2}>
+                  <Button
+                    className='border-solid ml-5 my-3'
+                    type='submit'
+                    variant='success'
+                    onClick={approveHandler}
+                  >
+                    Accept for Partnership
+                  </Button>
+                </Col>
+                <Col lg={2}>
+                  <Button
+                    className='border-solid ml-5 my-3'
+                    type='submit'
+                    variant='danger'
+                    onClick={rejectHandler}
+                  >
+                    Reject for Partnership
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </>
+        )}
+      </Container>
     </>
   );
 };

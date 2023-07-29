@@ -63,6 +63,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `https://candibrain.mocklab.io/api/users/partnership`,
       }),
     }),
+    getPartnershipDetail: builder.query({
+      query: (id) => ({
+        // url: `${USERS_URL}/partnership`,
+        url: `https://candibrain.mocklab.io/api/users/partnership/${id}`,
+      }),
+    }),
   }),
 });
 
@@ -75,5 +81,6 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetUserDetailsQuery,
-  useGetPartnershipQuery
+  useGetPartnershipQuery,
+  useGetPartnershipDetailQuery,
 } = userApiSlice;
