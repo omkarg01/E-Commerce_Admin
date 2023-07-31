@@ -124,7 +124,7 @@ const PartnershipListScreen = () => {
 
   function setTableData() {
     console.log('users', data);
-    let usersList = data.partnership.map((each) => ({
+    let usersList = data.partnership.map((each, index) => ({
       id: each.id,
       vendorName: each.vendorName,
       vendorAddress: each.vendorAddress,
@@ -136,7 +136,7 @@ const PartnershipListScreen = () => {
       ownerPhone: each.ownerPhone,
       cert: each.shopRegistrationCert,
       pancard: each.shopPancard,
-      category: 2,
+      category: index % 3 === 0 ? 2 : index % 3 === 1 ? 1 : 3,
       status: each.status === "approved" ? (
         <FaCheck style={{ color: 'green' }} />
       ) : each.status === "pending" ? (

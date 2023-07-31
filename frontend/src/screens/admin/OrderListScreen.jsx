@@ -111,7 +111,7 @@ const OrderListScreen = () => {
 
   function setTableData() {
     console.log('order', orders);
-    let ordersList = orders.map((order) => ({
+    let ordersList = orders.map((order, index) => ({
       id: order._id,
       name: order.user.name,
       date: order.createdAt.substring(0, 10),
@@ -126,7 +126,7 @@ const OrderListScreen = () => {
       ) : (
         <FaTimes style={{ color: 'red' }} />
       ),
-      category: 2,
+      category: index % 3 === 0 ? 2 : index % 3 === 1 ? 3 : 0,
       actions: tableActions(order),
     }));
 
@@ -163,7 +163,7 @@ const OrderListScreen = () => {
             <>
               <ToolkitProvider
                 bootstrap4
-                keyField='name'
+                keyField='id'
                 data={ordersList}
                 columns={columns}
                 search
