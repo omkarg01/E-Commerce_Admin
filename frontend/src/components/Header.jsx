@@ -52,7 +52,7 @@ const Header = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto' >
               <SearchBox />
-              <LinkContainer to='/cart'>
+              {/* <LinkContainer to='/cart'>
                 <Nav.Link>
                   <FaShoppingCart /> Cart
                   {cartItems.length > 0 && (
@@ -61,7 +61,7 @@ const Header = () => {
                     </Badge>
                   )}
                 </Nav.Link>
-              </LinkContainer>
+              </LinkContainer> */}
 
               {/* Category Links */}
 

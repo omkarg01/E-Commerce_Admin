@@ -89,6 +89,7 @@ const OrderListScreen = () => {
         formatter: (cell) => categories[cell],
         filter: selectFilter({
           options: categories,
+          onFilter: (filterVal) => console.log(`Filter Value: ${filterVal}`),
         }),
       },
       {
@@ -97,6 +98,19 @@ const OrderListScreen = () => {
       },
     ];
     setColumns(columns);
+  }
+
+  function afterFilter(newResult, newFilters) {
+    let initialValue = 0;
+    // newResult
+    console.log(newResult);
+    const sumWithInitial = newResult.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.total,
+      initialValue
+    );
+    console.log(parseFloat(sumWithInitial).toFixed(2));
+
+    console.log(newFilters);
   }
 
   function tableActions(order) {
@@ -159,7 +173,7 @@ const OrderListScreen = () => {
         </Message>
       ) : (
         <>
-        {ordersList && (
+          {ordersList && (
             <>
               <ToolkitProvider
                 bootstrap4
@@ -180,7 +194,7 @@ const OrderListScreen = () => {
                     />
                     <BootstrapTable
                       {...props.baseProps}
-                      filter={filterFactory()}
+                      filter={filterFactory({ afterFilter })}
                       noDataIndication='There is no solution'
                       striped
                       hover
