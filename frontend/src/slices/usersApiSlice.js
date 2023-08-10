@@ -60,13 +60,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
     getPartnership: builder.query({
       query: () => ({
         // url: `${USERS_URL}/partnership`,
-        url: `https://candibrain.mocklab.io/api/users/partnership`,
+        url: `https://candibrain.wiremockapi.cloud/api/users/partnership`,
       }),
     }),
     getPartnershipDetail: builder.query({
       query: (id) => ({
         // url: `${USERS_URL}/partnership`,
-        url: `https://candibrain.mocklab.io/api/users/partnership/${id}`,
+        url: `https://candibrain.wiremockapi.cloud/api/users/partnership/${id}`,
       }),
     }),
   }),

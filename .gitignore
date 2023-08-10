@@ -26,3 +26,5 @@ yarn-error.log*
 frontend/build
 uploads/*png
 uploads/*jpg
+
+backend/
