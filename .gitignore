@@ -28,3 +28,5 @@ uploads/*png
 uploads/*jpg
 
 backend/
+back/
+node/
